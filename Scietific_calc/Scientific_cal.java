@@ -6,7 +6,6 @@
 package Scietific_calc;
 import java.util.*;
 import java.lang.*;
-import javax.swing.*;
 import Scietific_calc.Scientific;
 
 /**
@@ -16,15 +15,6 @@ import Scietific_calc.Scientific;
 public class Scientific_cal extends javax.swing.JFrame {
 
     final static int GARBAGE_VAL=-999999;
-    
-    public static int factorial(int n)
-    {
-        int i,fact=1;
-        for(i=1;i<=n;i++){
-            fact*=i;
-        }
-        return fact;
-    }
     
     public static int isOperator(char c)
     {
@@ -99,7 +89,7 @@ public class Scientific_cal extends javax.swing.JFrame {
                     break;
                 }
             }
-            System.out.println("I="+i);
+            System.out.println("I= "+i);
             if(array[i]==' '){
                 continue;
             }
@@ -782,21 +772,21 @@ public class Scientific_cal extends javax.swing.JFrame {
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         
         this.setResizable(true);
-        this.setSize(330, 510);
+        this.setSize(330, 550);
         
     }//GEN-LAST:event_formWindowActivated
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         
-        this.setResizable(true);
-        this.setSize(330, 510);
+        this.setResizable(false);
+        this.setSize(330, 540);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
        
         Scientific sc = new Scientific();
         sc.setVisible(true);
-        
+        this.setVisible(false);
         
       /*  this.setResizable(true);
         this.setSize(515, 380);
@@ -901,6 +891,12 @@ public class Scientific_cal extends javax.swing.JFrame {
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // TODO add your handling code here:
+        String val = jbtnresult.getText();
+        double num = Double.parseDouble(val);
+        num*=(0.01);
+        jbtnresult.setText(Double.toString(num));
+         
+        
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jbtnclosebrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnclosebrActionPerformed
@@ -922,7 +918,8 @@ public class Scientific_cal extends javax.swing.JFrame {
         }
         else
         {
-            StringBuilder stb = new StringBuilder(jbtnresult.getText());
+            StringBuilder stb = new StringBuilder(1000);
+            stb.append(jbtnresult.getText());
             if(isOperator(stb.charAt(jbtnresult.getText().length()-2))==1)
             {
                 String input = jbtnresult.getText()+" ( ";
