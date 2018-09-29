@@ -1,0 +1,1009 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Scietific_calc;
+import java.util.*;
+import java.lang.*;
+import javax.swing.*;
+import Scietific_calc.Scientific;
+
+/**
+ *
+ * @author purusho
+ */
+public class Scientific_cal extends javax.swing.JFrame {
+
+    final static int GARBAGE_VAL=-999999;
+    
+    public static int factorial(int n)
+    {
+        int i,fact=1;
+        for(i=1;i<=n;i++){
+            fact*=i;
+        }
+        return fact;
+    }
+    
+    public static int isOperator(char c)
+    {
+        if(c=='+' || c=='-'|| c=='*' || c=='/'){
+            return(1);
+        }
+        else{
+            return(0);
+        }
+    }
+    
+    public static int hasPrecedence(char c)
+    {
+        if(c=='(' || c==')'){
+            return (4);}
+        if(c=='*'){
+            return(3);
+        }
+        if(c=='/'){
+            return (2);
+        }
+        if(c=='+' || c=='-'){
+            return (1);
+        }
+        
+        return 0;
+    }
+    
+    public static double evaluate(char op, double q,double p)
+    {
+        switch(op)
+        {
+            case '+':
+                return (p + q);
+            case '-':
+                return (p - q);
+            case '*':
+                return (p * q);
+            case '/':
+            {
+                if (q == 0){
+                    throw new UnsupportedOperationException("DIVISON BY ZERO");
+                }
+			return (p / q);               
+            }
+        }
+        return 0;
+    }
+    
+    public static double solution(String expr)
+    {
+        System.out.println(expr);
+        char []array = expr.toCharArray();
+        //System.out.println(array.length);
+        Stack<Character> operator = new Stack<>();
+        Stack<Double> operand = new Stack<>();
+        for(int i = 0; i<array.length;i++)
+        {
+            if(array[0]=='-' && i==0){
+                i+=2;
+                StringBuilder str = new StringBuilder();
+                while((i<array.length) && ((array[i] >= '0' && array[i] <= '9')||(array[i]=='.'))){
+			str.append(array[i]);
+			i++;
+		}
+                
+                String x = "-"+str;
+                System.out.println(x);
+                operand.push(Double.parseDouble(x));
+                 
+                if(i>=array.length){
+                    break;
+                }
+            }
+            System.out.println("I="+i);
+            if(array[i]==' '){
+                continue;
+            }
+            
+            if(array[i]>='0' && array[i]<='9'){
+                StringBuilder numstr = new StringBuilder();
+               
+                while((i<array.length) && ((array[i] >= '0' && array[i] <= '9')||(array[i]=='.'))){
+                    numstr.append(array[i++]);
+		}
+               // System.out.println(numstr);
+                operand.push(Double.parseDouble(numstr.toString()));
+            }
+            
+            else if(array[i]=='('){
+                        operator.push(array[i]);
+                }
+            
+            else if(array[i]==')'){
+                
+                while(operator.peek()!='('){
+                    char op = operator.pop();
+                    double result = evaluate(op,operand.pop(),operand.pop());
+                    operand.push(result);
+                }
+                operator.pop();
+            }
+            
+            else if(Scientific_cal.isOperator(array[i])==1){
+                
+                try{
+                                       
+                    while (!operator.empty() && hasPrecedence(array[i])<=hasPrecedence(operator.peek())
+                             && operator.peek()!='('){
+
+                            char op=operator.pop();
+                            double result = evaluate(op,operand.pop(),operand.pop());
+                            System.out.println(result);
+                            operand.push(result);
+                    } 
+                     operator.push(array[i]);
+                 }
+                catch(Exception e){
+                     System.out.println(e);
+                }
+            }
+            
+        }
+        try{
+            while(!operator.empty()){
+                char op = operator.pop();
+                double result = evaluate(op,operand.pop(),operand.pop());
+                operand.push(result);
+                
+                
+            }
+        }
+        catch(Exception e){
+            return(GARBAGE_VAL);
+        }
+        
+        return operand.pop();
+    }
+    
+    /**
+     * Creates new form Scientific_cal
+     */
+    public Scientific_cal() 
+    {
+        initComponents();
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jSlider1 = new javax.swing.JSlider();
+        jbtnresult = new javax.swing.JTextField();
+        jbtn5 = new javax.swing.JButton();
+        jbtn6 = new javax.swing.JButton();
+        jbtnadd = new javax.swing.JButton();
+        jbtn4 = new javax.swing.JButton();
+        jbtn7 = new javax.swing.JButton();
+        jbtn8 = new javax.swing.JButton();
+        jbtn9 = new javax.swing.JButton();
+        jbtnsub = new javax.swing.JButton();
+        jbtn1 = new javax.swing.JButton();
+        jbtn2 = new javax.swing.JButton();
+        jbtn3 = new javax.swing.JButton();
+        jbtneql = new javax.swing.JButton();
+        jButton13 = new javax.swing.JButton();
+        jbtn0 = new javax.swing.JButton();
+        jbtndot = new javax.swing.JButton();
+        jbtnplusmin = new javax.swing.JButton();
+        jbtnclear = new javax.swing.JButton();
+        jback = new javax.swing.JButton();
+        jbtndiv = new javax.swing.JButton();
+        jbtnmul = new javax.swing.JButton();
+        jbtnpi = new javax.swing.JButton();
+        jbtne = new javax.swing.JButton();
+        jbtnans = new javax.swing.JButton();
+        jbtnexit = new javax.swing.JButton();
+        jbtnclosebr = new javax.swing.JButton();
+        jbtnopenbr = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(19, 222, 130));
+        setForeground(new java.awt.Color(255, 100, 100));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
+
+        jbtnresult.setBackground(new java.awt.Color(128, 245, 236));
+        jbtnresult.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jbtnresult.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jbtnresult.setText("0");
+        jbtnresult.setSelectionColor(new java.awt.Color(162, 147, 140));
+        jbtnresult.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnresultActionPerformed(evt);
+            }
+        });
+
+        jbtn5.setFont(new java.awt.Font("Waree", 1, 12)); // NOI18N
+        jbtn5.setText("5");
+        jbtn5.setToolTipText("");
+        jbtn5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtn5ActionPerformed(evt);
+            }
+        });
+
+        jbtn6.setFont(new java.awt.Font("Waree", 1, 12)); // NOI18N
+        jbtn6.setText("6");
+        jbtn6.setToolTipText("");
+        jbtn6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtn6ActionPerformed(evt);
+            }
+        });
+
+        jbtnadd.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        jbtnadd.setText("+");
+        jbtnadd.setToolTipText("");
+        jbtnadd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnaddActionPerformed(evt);
+            }
+        });
+
+        jbtn4.setFont(new java.awt.Font("Waree", 1, 12)); // NOI18N
+        jbtn4.setText("4");
+        jbtn4.setToolTipText("");
+        jbtn4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtn4ActionPerformed(evt);
+            }
+        });
+
+        jbtn7.setFont(new java.awt.Font("Waree", 1, 12)); // NOI18N
+        jbtn7.setText("7");
+        jbtn7.setToolTipText("");
+        jbtn7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtn7ActionPerformed(evt);
+            }
+        });
+
+        jbtn8.setFont(new java.awt.Font("Waree", 1, 12)); // NOI18N
+        jbtn8.setText("8");
+        jbtn8.setToolTipText("");
+        jbtn8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtn8ActionPerformed(evt);
+            }
+        });
+
+        jbtn9.setFont(new java.awt.Font("Waree", 1, 12)); // NOI18N
+        jbtn9.setText("9");
+        jbtn9.setToolTipText("");
+        jbtn9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtn9ActionPerformed(evt);
+            }
+        });
+
+        jbtnsub.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        jbtnsub.setText("-");
+        jbtnsub.setToolTipText("");
+        jbtnsub.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnsubActionPerformed(evt);
+            }
+        });
+
+        jbtn1.setFont(new java.awt.Font("Waree", 1, 12)); // NOI18N
+        jbtn1.setText("1");
+        jbtn1.setToolTipText("");
+        jbtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtn1ActionPerformed(evt);
+            }
+        });
+
+        jbtn2.setFont(new java.awt.Font("Waree", 1, 12)); // NOI18N
+        jbtn2.setText("2");
+        jbtn2.setToolTipText("");
+        jbtn2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtn2ActionPerformed(evt);
+            }
+        });
+
+        jbtn3.setFont(new java.awt.Font("Waree", 1, 12)); // NOI18N
+        jbtn3.setText("3");
+        jbtn3.setToolTipText("");
+        jbtn3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtn3ActionPerformed(evt);
+            }
+        });
+
+        jbtneql.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        jbtneql.setText("=");
+        jbtneql.setToolTipText("");
+        jbtneql.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtneqlActionPerformed(evt);
+            }
+        });
+
+        jButton13.setFont(new java.awt.Font("Waree", 1, 12)); // NOI18N
+        jButton13.setText("%");
+        jButton13.setToolTipText("");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+
+        jbtn0.setFont(new java.awt.Font("Waree", 1, 12)); // NOI18N
+        jbtn0.setText("0");
+        jbtn0.setToolTipText("");
+        jbtn0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtn0ActionPerformed(evt);
+            }
+        });
+
+        jbtndot.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
+        jbtndot.setText(".");
+        jbtndot.setToolTipText("");
+        jbtndot.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtndotActionPerformed(evt);
+            }
+        });
+
+        jbtnplusmin.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        jbtnplusmin.setText("±");
+        jbtnplusmin.setToolTipText("");
+        jbtnplusmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnplusminActionPerformed(evt);
+            }
+        });
+
+        jbtnclear.setFont(new java.awt.Font("L M Sans Demi Cond10", 0, 14)); // NOI18N
+        jbtnclear.setForeground(new java.awt.Color(7, 19, 20));
+        jbtnclear.setText("c");
+        jbtnclear.setToolTipText("");
+        jbtnclear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnclearActionPerformed(evt);
+            }
+        });
+
+        jback.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jback.setText("◀");
+        jback.setToolTipText("");
+        jback.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbackActionPerformed(evt);
+            }
+        });
+
+        jbtndiv.setFont(new java.awt.Font("Waree", 1, 12)); // NOI18N
+        jbtndiv.setText("/");
+        jbtndiv.setToolTipText("");
+        jbtndiv.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtndivActionPerformed(evt);
+            }
+        });
+
+        jbtnmul.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        jbtnmul.setText("*");
+        jbtnmul.setToolTipText("");
+        jbtnmul.setPreferredSize(new java.awt.Dimension(19, 27));
+        jbtnmul.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnmulActionPerformed(evt);
+            }
+        });
+
+        jbtnpi.setFont(new java.awt.Font("Waree", 1, 12)); // NOI18N
+        jbtnpi.setText("∏");
+        jbtnpi.setToolTipText("");
+        jbtnpi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnpiActionPerformed(evt);
+            }
+        });
+
+        jbtne.setFont(new java.awt.Font("Ubuntu Light", 1, 18)); // NOI18N
+        jbtne.setText("e");
+        jbtne.setToolTipText("");
+        jbtne.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtneActionPerformed(evt);
+            }
+        });
+
+        jbtnans.setFont(new java.awt.Font("Waree", 0, 14)); // NOI18N
+        jbtnans.setText("Ans");
+        jbtnans.setToolTipText("");
+        jbtnans.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnansActionPerformed(evt);
+            }
+        });
+
+        jbtnexit.setFont(new java.awt.Font("Waree", 0, 14)); // NOI18N
+        jbtnexit.setText("Exit");
+        jbtnexit.setToolTipText("");
+        jbtnexit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnexitActionPerformed(evt);
+            }
+        });
+
+        jbtnclosebr.setFont(new java.awt.Font("Ubuntu Light", 1, 18)); // NOI18N
+        jbtnclosebr.setText(")");
+        jbtnclosebr.setToolTipText("");
+        jbtnclosebr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnclosebrActionPerformed(evt);
+            }
+        });
+
+        jbtnopenbr.setFont(new java.awt.Font("Ubuntu Light", 1, 18)); // NOI18N
+        jbtnopenbr.setText("(");
+        jbtnopenbr.setToolTipText("");
+        jbtnopenbr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnopenbrActionPerformed(evt);
+            }
+        });
+
+        jMenu1.setBackground(new java.awt.Color(212, 71, 95));
+        jMenu1.setForeground(new java.awt.Color(21, 18, 9));
+        jMenu1.setText("File");
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setBackground(new java.awt.Color(19, 16, 5));
+        jMenuItem1.setForeground(new java.awt.Color(19, 14, 8));
+        jMenuItem1.setText("Standard");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setBackground(new java.awt.Color(246, 244, 237));
+        jMenuItem2.setForeground(new java.awt.Color(15, 12, 5));
+        jMenuItem2.setText("Scietific");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setBackground(new java.awt.Color(242, 115, 123));
+        jMenu2.setForeground(new java.awt.Color(18, 15, 8));
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jbtnresult, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jbtnclear, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jback, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbtndiv, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbtnmul, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jbtn7, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbtn8, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbtn9, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbtnsub, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jbtn4, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbtn5, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbtn6, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbtnadd, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jbtnpi, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbtne, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbtnopenbr, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jbtnclosebr, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jbtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jbtn2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jbtn0, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jbtn3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jbtndot, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jbtneql, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jbtnplusmin, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jbtnans, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbtnexit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jbtnresult, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jback, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtndiv, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnmul, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnclear, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jbtn8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtn9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnsub, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtn7, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jbtn4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jbtn6, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jbtn5, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jbtnadd, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtn3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtn2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtneql, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtndot, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtn0, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnplusmin, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jbtnpi, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jbtne, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jbtnclosebr, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jbtnopenbr, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtnans, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnexit, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+        
+    private void jbtnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnaddActionPerformed
+       
+        if(jbtnresult.getText().equals("0")){
+            jbtnresult.setText("+");
+        }
+        else
+        {
+            String input = jbtnresult.getText()+" + ";
+            jbtnresult.setText(input);
+        }
+    }//GEN-LAST:event_jbtnaddActionPerformed
+
+    private void jbtn6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn6ActionPerformed
+       
+        if(jbtnresult.getText().equals("0")){
+            jbtnresult.setText(jbtn6.getText());
+        }
+        else
+        {
+            String input = jbtnresult.getText()+jbtn6.getText();
+            jbtnresult.setText(input);
+        }
+    }//GEN-LAST:event_jbtn6ActionPerformed
+
+    private void jbtn5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn5ActionPerformed
+       
+        if(jbtnresult.getText().equals("0")){
+            jbtnresult.setText(jbtn5.getText());
+        }
+        else
+        {
+            String input = jbtnresult.getText()+jbtn5.getText();
+            jbtnresult.setText(input);
+        }
+    }//GEN-LAST:event_jbtn5ActionPerformed
+
+    private void jbtn8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn8ActionPerformed
+       
+        if(jbtnresult.getText().equals("0")){
+            jbtnresult.setText(jbtn8.getText());
+        }
+        else
+        {
+            String input = jbtnresult.getText()+jbtn8.getText();
+            jbtnresult.setText(input);
+        }
+    }//GEN-LAST:event_jbtn8ActionPerformed
+
+    private void jbtn9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn9ActionPerformed
+       
+        if(jbtnresult.getText().equals("0")){
+            jbtnresult.setText(jbtn9.getText());
+        }
+        else
+        {
+            String input = jbtnresult.getText()+jbtn9.getText();
+            jbtnresult.setText(input);
+        }
+    }//GEN-LAST:event_jbtn9ActionPerformed
+
+    private void jbtnsubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnsubActionPerformed
+       
+        if(jbtnresult.getText().equals("0")){
+            jbtnresult.setText("-");
+        }
+        else
+        {
+            String input = jbtnresult.getText()+" - ";
+            jbtnresult.setText(input);
+        }
+    }//GEN-LAST:event_jbtnsubActionPerformed
+
+    private void jbtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn2ActionPerformed
+        
+        if(jbtnresult.getText().equals("0")){
+            jbtnresult.setText(jbtn2.getText());
+        }
+        else
+        {
+            String input = jbtnresult.getText()+jbtn2.getText();
+            jbtnresult.setText(input);
+        }
+    }//GEN-LAST:event_jbtn2ActionPerformed
+
+    private void jbtn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn3ActionPerformed
+        
+        if(jbtnresult.getText().equals("0")){
+            jbtnresult.setText(jbtn3.getText());
+        }
+        else
+        {
+            String input = jbtnresult.getText()+jbtn3.getText();
+            jbtnresult.setText(input);
+        }
+    }//GEN-LAST:event_jbtn3ActionPerformed
+
+    private void jbtneqlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtneqlActionPerformed
+        
+        StringBuilder x = new StringBuilder(800);
+        String expr = jbtnresult.getText();
+        x.append(expr);
+        float result = (float)Scientific_cal.solution(expr.trim());
+        System.out.println(result);
+        if(result!=GARBAGE_VAL){
+            jbtnresult.setText(""+result);
+        }        
+        else{
+            jbtnresult.setText("Syntax Error");
+        }
+    }//GEN-LAST:event_jbtneqlActionPerformed
+
+    private void jbtn0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn0ActionPerformed
+      
+        if(jbtnresult.getText().equals("0")){
+            jbtnresult.setText(jbtn0.getText());
+        }
+        else
+        {
+            String input = jbtnresult.getText()+jbtn0.getText();
+            jbtnresult.setText(input);
+        }
+    }//GEN-LAST:event_jbtn0ActionPerformed
+
+    private void jbtndotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtndotActionPerformed
+       
+        if(!jbtnresult.getText().contains("."))
+        {
+            jbtnresult.setText(jbtnresult.getText()+jbtndot.getText());
+        }
+    }//GEN-LAST:event_jbtndotActionPerformed
+
+    private void jbtnplusminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnplusminActionPerformed
+       
+        double val = Double.parseDouble(String.valueOf(jbtnresult.getText()));
+        val = val * (-1);
+        jbtnresult.setText(String.valueOf(val));
+    }//GEN-LAST:event_jbtnplusminActionPerformed
+
+    private void jbtnresultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnresultActionPerformed
+    // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnresultActionPerformed
+
+    private void jbtn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn4ActionPerformed
+       
+       if(jbtnresult.getText().equals("0")){
+            jbtnresult.setText(jbtn4.getText());
+       }
+        else
+       {
+            String input = jbtnresult.getText()+jbtn4.getText();
+            jbtnresult.setText(input);
+       }
+    }//GEN-LAST:event_jbtn4ActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        
+        this.setResizable(true);
+        this.setSize(330, 510);
+        
+    }//GEN-LAST:event_formWindowActivated
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        
+        this.setResizable(true);
+        this.setSize(330, 510);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+       
+        Scientific sc = new Scientific();
+        sc.setVisible(true);
+        
+        
+      /*  this.setResizable(true);
+        this.setSize(515, 380);
+        jbtnresult.setSize(500, 40);*/
+        
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbackActionPerformed
+        
+        String back = null;
+        if(jbtnresult.getText().length() > 0)
+        {
+            StringBuilder stb = new StringBuilder(jbtnresult.getText());
+            stb.deleteCharAt(jbtnresult.getText().length()-1);
+            back = stb.toString();
+            jbtnresult.setText(back);
+        }
+    }//GEN-LAST:event_jbackActionPerformed
+
+    private void jbtndivActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtndivActionPerformed
+       
+        if(jbtnresult.getText().equals("0")){
+            jbtnresult.setText("Syntax error");
+        }
+        else
+        {
+            String input = jbtnresult.getText()+" / ";
+            jbtnresult.setText(input);
+        }
+    }//GEN-LAST:event_jbtndivActionPerformed
+
+    private void jbtnmulActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnmulActionPerformed
+        
+        if(jbtnresult.getText().equals("0")){
+            jbtnresult.setText("Syntax error");
+        }
+        else
+        {
+            String input = jbtnresult.getText()+" * ";
+            jbtnresult.setText(input);
+        }
+    }//GEN-LAST:event_jbtnmulActionPerformed
+
+    private void jbtnpiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnpiActionPerformed
+       
+        if(jbtnresult.getText().equals("0")){
+           jbtnresult.setText(Double.toString(Math.PI));
+       }
+        else{
+            String input = jbtnresult.getText()+Double.toString(Math.PI);
+            jbtnresult.setText(input);
+        }
+       
+    }//GEN-LAST:event_jbtnpiActionPerformed
+
+    private void jbtneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtneActionPerformed
+        
+        if(jbtnresult.getText().equals("0")){
+           jbtnresult.setText(Double.toString(Math.E));
+       }
+        else{
+            String input = jbtnresult.getText()+Double.toString(Math.E);
+            jbtnresult.setText(input);
+        }
+    }//GEN-LAST:event_jbtneActionPerformed
+
+    private void jbtnansActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnansActionPerformed
+        jbtnresult.setText(jbtnresult.getText());
+    }//GEN-LAST:event_jbtnansActionPerformed
+
+    private void jbtnexitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnexitActionPerformed
+            System.exit(0);
+    }//GEN-LAST:event_jbtnexitActionPerformed
+
+    private void jbtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn1ActionPerformed
+      
+        if(jbtnresult.getText().equals("0")){
+            jbtnresult.setText(jbtn1.getText());
+        }
+        else 
+        {
+            String input = jbtnresult.getText()+jbtn1.getText();
+            jbtnresult.setText(input);
+        }
+    }//GEN-LAST:event_jbtn1ActionPerformed
+
+    private void jbtn7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn7ActionPerformed
+        
+        if(jbtnresult.getText().equals("0")){
+            jbtnresult.setText(jbtn7.getText());
+        }
+        else
+        {
+            String input = jbtnresult.getText()+jbtn7.getText();
+            jbtnresult.setText(input);
+        }
+    }//GEN-LAST:event_jbtn7ActionPerformed
+
+    private void jbtnclearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnclearActionPerformed
+       jbtnresult.setText("");
+    }//GEN-LAST:event_jbtnclearActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jbtnclosebrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnclosebrActionPerformed
+       if(jbtnresult.getText().equals("0")){
+            jbtnresult.setText("Syntax error");
+       }
+        else
+       {
+            String input = jbtnresult.getText()+" ) ";
+            jbtnresult.setText(input);
+       }
+        
+    }//GEN-LAST:event_jbtnclosebrActionPerformed
+
+    private void jbtnopenbrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnopenbrActionPerformed
+        
+        if(jbtnresult.getText().equals("0")){
+            jbtnresult.setText("( ");
+        }
+        else
+        {
+            StringBuilder stb = new StringBuilder(jbtnresult.getText());
+            if(isOperator(stb.charAt(jbtnresult.getText().length()-2))==1)
+            {
+                String input = jbtnresult.getText()+" ( ";
+                jbtnresult.setText(input);
+            }
+            else{
+                jbtnresult.setText("Syntax Error!");
+            }
+            
+        }
+        
+    }//GEN-LAST:event_jbtnopenbrActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Scientific_cal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Scientific_cal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Scientific_cal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Scientific_cal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Scientific_cal().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton13;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JSlider jSlider1;
+    private javax.swing.JButton jback;
+    private javax.swing.JButton jbtn0;
+    private javax.swing.JButton jbtn1;
+    private javax.swing.JButton jbtn2;
+    private javax.swing.JButton jbtn3;
+    private javax.swing.JButton jbtn4;
+    private javax.swing.JButton jbtn5;
+    private javax.swing.JButton jbtn6;
+    private javax.swing.JButton jbtn7;
+    private javax.swing.JButton jbtn8;
+    private javax.swing.JButton jbtn9;
+    private javax.swing.JButton jbtnadd;
+    private javax.swing.JButton jbtnans;
+    private javax.swing.JButton jbtnclear;
+    private javax.swing.JButton jbtnclosebr;
+    private javax.swing.JButton jbtndiv;
+    private javax.swing.JButton jbtndot;
+    private javax.swing.JButton jbtne;
+    private javax.swing.JButton jbtneql;
+    private javax.swing.JButton jbtnexit;
+    private javax.swing.JButton jbtnmul;
+    private javax.swing.JButton jbtnopenbr;
+    private javax.swing.JButton jbtnpi;
+    private javax.swing.JButton jbtnplusmin;
+    private javax.swing.JTextField jbtnresult;
+    private javax.swing.JButton jbtnsub;
+    // End of variables declaration//GEN-END:variables
+}
